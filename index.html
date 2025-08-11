@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Evaluación de Personal IT</title>
+<link rel="icon" type="image/gif" href="images/unnamed.gif">
+<style>
+    body {
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        background-image: url(images/greenclover.png);
+        background-size: 100px 100px;
+        background-repeat: repeat;
+        animation: scrollBackground 8s linear infinite;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        color: #2e7d32;
+    }
+
+    @keyframes scrollBackground {
+        0% { background-position: 0 0; }
+        100% { background-position: 100px 100px; }
+    }
+
+    .container {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        padding: 20px;
+        max-width: 900px;
+        width: 90%;
+        position: relative;
+    }
+
+    .icon-circle {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background: #2e7d32;
+        border: 3px solid #1b5e20;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .icon-circle img {
+        width: 85px;
+        height: 85px;
+        border-radius: 50%;
+    }
+
+    h1 {
+        text-align: center;
+        color: #2e7d32;
+        margin-bottom: 15px;
+        margin-top: 30px; 
+    }
+
+    label {
+        font-weight: bold;
+        margin-top: 10px;
+        display: block;
+        color: #2e7d32;
+    }
+
+    select, input, textarea {
+        width: calc(100% - 22px); 
+        padding: 10px;
+        margin: 5px 0 15px;
+        border-radius: 8px;
+        border: 1px solid #2e7d32;
+        font-size: 16px;
+        color: #000000; 
+        box-sizing: border-box;
+    }
+
+    #nombreSolicitante {
+        width: calc(70% - 22px);
+        max-width: 400px;
+    }
+
+    .rating-buttons {
+        display: flex;
+        gap: 10px;
+        margin: 10px 0;
+        flex-wrap: wrap;
+    }
+
+    .rating-buttons button {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: 2px solid #2e7d32;
+        cursor: pointer;
+        background-color: white;
+        color: #2e7d32;
+        font-size: 20px;
+        font-weight: bold;
+        transition: transform 0.2s, box-shadow 0.3s, background-color 0.3s;
+    }
+
+    .rating-buttons button.selected {
+        background-color: #2e7d32;
+        color: white;
+        transform: scale(1.1);
+    }
+
+    .rating-image {
+        display: none;
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    .rating-image img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        border: 3px solid #2e7d32;
+        transition: all 0.3s ease;
+    }
+
+    .rating-image.rating-1 img {
+        border-color: #2196F3;
+        box-shadow: 0 0 30px #2196F3;
+    }
+
+    .rating-image.rating-2 img {
+        border-color: #FF5722;
+        box-shadow: 0 0 30px #FF5722;
+    }
+
+    .rating-image.rating-3 img {
+        border-color: #FF9800;
+        box-shadow: 0 0 30px #FF9800;
+    }
+
+    .rating-image.rating-4 img {
+        border-color: #4CAF50;
+        box-shadow: 0 0 30px #4CAF50;
+    }
+
+    .rating-image.rating-5 img {
+        border-color: #FFD700;
+        box-shadow: 0 0 30px #FFD700;
+    }
+
+    button.enviar {
+        background: #2e7d32;
+        color: white;
+        padding: 12px;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+        border-radius: 8px;
+        width: 100%;
+        transition: background 0.3s;
+    }
+
+    button.enviar:hover:not(:disabled) {
+        background: #1b5e20;
+    }
+
+    button.enviar:disabled {
+        background: #cccccc;
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    /* Indicador de envío */
+    .loading {
+        display: none;
+        text-align: center;
+        color: #2e7d32;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="icon-circle">
+        <img src="images/normalteacher.png" alt="Icono">
+    </div>
+    
+    <div class="form-section">
+        <h1>Evaluación de Personal IT</h1>
+
+        <form id="evaluacionForm">
+            <label>Nombre de quien solicitó el soporte:</label>
+            <input type="text" id="nombreSolicitante" required>
+
+            <label>Campus:</label>
+            <select id="campus" required>
+                <option value="">Seleccione...</option>
+                <option value="Del Paseo">Del Paseo</option>
+                <option value="Cumbres">Cumbres</option>
+            </select>
+
+            <label>Técnico IT:</label>
+            <select id="tecnico" required>
+                <option value="">Seleccione...</option>
+                <option value="Heberto">Heberto</option>
+                <option value="Andres">Andres</option>
+                <option value="Kevin">Kevin</option>
+                <option value="Salvador">Salvador</option>
+                <option value="Jesus">Jesus</option>
+            </select>
+
+            <label>Problema resuelto:</label>
+            <select id="problema" required>
+                <option value="">Seleccione...</option>
+                <option value="Projector">Projector</option>
+                <option value="iPad">iPad</option>
+                <option value="Apple TV">Apple TV</option>
+                <option value="Internet">Internet</option>
+            </select>
+
+            <label>Calificación:</label>
+            <div class="rating-buttons">
+                <button type="button" onclick="setRating(1, this)" data-rating="1">1</button>
+                <button type="button" onclick="setRating(2, this)" data-rating="2">2</button>
+                <button type="button" onclick="setRating(3, this)" data-rating="3">3</button>
+                <button type="button" onclick="setRating(4, this)" data-rating="4">4</button>
+                <button type="button" onclick="setRating(5, this)" data-rating="5">5</button>
+            </div>
+
+            <div class="rating-image" id="ratingImage">
+                <img src="" alt="Imagen de calificación">
+            </div>
+
+            <input type="hidden" id="calificacion" required>
+
+            <label>Comentarios:</label>
+            <textarea id="comentarios" rows="4"></textarea>
+
+            <button type="submit" class="enviar" id="submitBtn">Enviar</button>
+            <div class="loading" id="loadingIndicator">Enviando evaluación...</div>
+        </form>
+    </div>
+</div>
+
+<script>
+const ratingImages = {
+    1: "images/sadtear.png",
+    2: "images/mildsad.png",
+    3: "images/neutral.png",
+    4: "images/normalteacher.png",
+    5: "images/happy.png"
+};
+
+function setRating(value, button) {
+    document.getElementById("calificacion").value = value;
+    document.querySelectorAll(".rating-buttons button").forEach(btn => {
+        btn.classList.remove("selected");
+    });
+
+    button.classList.add("selected");
+
+    const imgEl = document.getElementById("ratingImage");
+    imgEl.style.display = "block";
+    imgEl.querySelector("img").src = ratingImages[value];
+    
+    imgEl.classList.remove("rating-1", "rating-2", "rating-3", "rating-4", "rating-5");
+    imgEl.classList.add(`rating-${value}`);
+}
+
+document.getElementById("evaluacionForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const submitBtn = document.getElementById("submitBtn");
+    const loadingIndicator = document.getElementById("loadingIndicator");
+    
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Enviando...";
+    loadingIndicator.style.display = "block";
+
+    let data = {
+        nombreSolicitante: document.getElementById("nombreSolicitante").value,
+        campus: document.getElementById("campus").value,
+        tecnico: document.getElementById("tecnico").value,
+        problema: document.getElementById("problema").value,
+        calificacion: document.getElementById("calificacion").value,
+        comentarios: document.getElementById("comentarios").value
+    };
+
+    fetch("https://script.google.com/macros/s/AKfycbx9VXEsQ9z3JcbMYeSyl09WKnBc5pyHDZPfpUnPje5EhvFsbnm56v701OUjo8Hnvw6I/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    }).then(() => {
+        alert("✅ Evaluación enviada con éxito");
+        
+        document.getElementById("evaluacionForm").reset();
+        document.querySelectorAll(".rating-buttons button").forEach(btn => {
+            btn.classList.remove("selected");
+        });
+        const imgEl = document.getElementById("ratingImage");
+        imgEl.style.display = "none";
+        imgEl.classList.remove("rating-1", "rating-2", "rating-3", "rating-4", "rating-5");
+        
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Enviar";
+        loadingIndicator.style.display = "none";
+        
+    }).catch(err => {
+        alert("❌ Error al enviar la evaluación");
+        console.error(err);
+        
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Enviar";
+        loadingIndicator.style.display = "none";
+    });
+});
+</script>
+
+</body>
+</html>
